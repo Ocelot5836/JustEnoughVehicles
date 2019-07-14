@@ -24,13 +24,9 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
     private var extractionProgress = 0
     private var startTime = System.currentTimeMillis()
 
-    override fun getBackground(): IDrawable {
-        return background
-    }
+    override fun getBackground(): IDrawable = background
 
-    override fun getIcon(): IDrawable? {
-        return icon
-    }
+    override fun getIcon(): IDrawable = icon
 
     override fun drawExtras(minecraft: Minecraft) {
         animatedFlame.draw(minecraft, 1, 15)
@@ -45,17 +41,11 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
         }
     }
 
-    override fun getTitle(): String {
-        return ModBlocks.FLUID_MIXER.localizedName
-    }
+    override fun getTitle(): String = ModBlocks.FLUID_MIXER.localizedName
 
-    override fun getModName(): String {
-        return VehicleModJei.VEHICLE_NAME
-    }
+    override fun getModName(): String = VehicleModJei.VEHICLE_NAME
 
-    override fun getUid(): String {
-        return VehicleModJei.FLUID_MIXER_UID
-    }
+    override fun getUid(): String = VehicleModJei.FLUID_MIXER_UID
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: FluidMixerRecipeWrapper, ingredients: IIngredients) {
         val stacks = recipeLayout.itemStacks

@@ -3,7 +3,7 @@ package com.ocelot.vehicle.jei
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.common.Mod
 
-@Mod(modid = VehicleModJei.MOD_ID, name = VehicleModJei.NAME, version = VehicleModJei.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", dependencies = "required-after:vehicle@[0.41.0,)")
+@Mod(modid = VehicleModJei.MOD_ID, name = VehicleModJei.NAME, version = VehicleModJei.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", dependencies = "required-after:vehicle@[0.41.0,);required-after:jei")
 class VehicleModJei {
     companion object {
         const val MOD_ID = "cvmjei"

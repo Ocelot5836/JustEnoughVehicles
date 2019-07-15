@@ -1,7 +1,6 @@
 package com.ocelot.vehicle.jei.plugin.fluidmixer
 
 import com.mrcrayfish.vehicle.init.ModBlocks
-import com.mrcrayfish.vehicle.tileentity.TileEntityFluidMixer
 import com.ocelot.vehicle.jei.VehicleModJei
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IDrawable
@@ -21,25 +20,11 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
     private val inputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 29)
     private val outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59)
 
-    private var extractionProgress = 0
-    private var startTime = System.currentTimeMillis()
-
     override fun getBackground(): IDrawable = background
 
     override fun getIcon(): IDrawable = icon
 
-    override fun drawExtras(minecraft: Minecraft) {
-        animatedFlame.draw(minecraft, 1, 15)
-
-        val msPassed = ((System.currentTimeMillis() - startTime) % TileEntityFluidMixer.FLUID_MAX_PROGRESS * MS_PER_TICK)
-        val value = msPassed.toDouble() / (TileEntityFluidMixer.FLUID_MAX_PROGRESS * MS_PER_TICK).toDouble()
-
-        // TODO add creation animation
-
-        if (extractionProgress > TileEntityFluidMixer.FLUID_MAX_PROGRESS) {
-            extractionProgress = 0
-        }
-    }
+    override fun drawExtras(minecraft: Minecraft) = animatedFlame.draw(minecraft, 1, 15)
 
     override fun getTitle(): String = ModBlocks.FLUID_MIXER.localizedName
 
@@ -66,8 +51,5 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
         const val fluidInput1 = 0
         const val fluidInput2 = 1
         const val fluidOutput = 2
-
-        const val PROGRESS_SPEED = 1
-        const val MS_PER_TICK = 1000 / 20 * PROGRESS_SPEED
     }
 }

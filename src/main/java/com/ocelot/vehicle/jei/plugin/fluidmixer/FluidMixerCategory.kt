@@ -21,7 +21,7 @@ class FluidMixerCategory(guiHelper: IGuiHelper) : IRecipeCategory<FluidMixerReci
     private val animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true)
     private val inputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 29)
     private val outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59)
-    private val localizedName = I18n.format(UNLOCALIZED_TITLE)
+    private val localizedName = I18n.format(VehicleModJei.FLUID_MIXER_UNLOCALIZED_TITLE)
 
     override fun getBackground(): IDrawable = background
 
@@ -50,8 +50,6 @@ class FluidMixerCategory(guiHelper: IGuiHelper) : IRecipeCategory<FluidMixerReci
     }
 
     companion object {
-        const val UNLOCALIZED_TITLE = "cvmjei.category.fluid_mixing.title"
-
         const val inputSlot = 0
         const val fluidInput1 = 0
         const val fluidInput2 = 1

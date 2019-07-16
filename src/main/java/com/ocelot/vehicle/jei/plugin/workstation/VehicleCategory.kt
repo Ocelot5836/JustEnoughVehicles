@@ -19,7 +19,7 @@ class VehicleCategory(guiHelper: IGuiHelper) : IRecipeCategory<VehicleRecipeWrap
     private val shadow = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 112, 74, 90, 10)
     private val icon = guiHelper.createDrawableIngredient(ItemStack(ModBlocks.WORKSTATION))
     private val slot = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 43, 18, 18)
-    private val localizedName = I18n.format(UNLOCALIZED_TITLE)
+    private val localizedName = I18n.format(VehicleModJei.VEHICLE_UNLOCALIZED_TITLE)
 
     override fun getBackground(): IDrawable = background
 
@@ -57,8 +57,6 @@ class VehicleCategory(guiHelper: IGuiHelper) : IRecipeCategory<VehicleRecipeWrap
     }
 
     companion object {
-        const val UNLOCALIZED_TITLE = "cvmjei.category.vehicle.title"
-
         const val engineSlot = 0
         const val wheelsSlot = 1
         const val outputSlot = 2

@@ -21,7 +21,7 @@ class FluidExtractorCategory(guiHelper: IGuiHelper) : IRecipeCategory<FluidExtra
     private val staticFlame = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 0, 14, 14)
     private val animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true)
     private val outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59)
-    private val localizedName = I18n.format(UNLOCALIZED_TITLE)
+    private val localizedName = I18n.format(VehicleModJei.FLUID_EXTRACTOR_UNLOCALIZED_TITLE)
 
     override fun getBackground(): IDrawable = background
 
@@ -48,8 +48,6 @@ class FluidExtractorCategory(guiHelper: IGuiHelper) : IRecipeCategory<FluidExtra
     }
 
     companion object {
-        const val UNLOCALIZED_TITLE = "cvmjei.category.fluid_extracting.title"
-
         const val inputSlot = 0
         const val outputTank = 0
     }

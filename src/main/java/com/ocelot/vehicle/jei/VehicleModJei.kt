@@ -3,6 +3,7 @@ package com.ocelot.vehicle.jei
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.common.Mod
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
 @Mod(modid = VehicleModJei.MOD_ID, name = VehicleModJei.NAME, version = VehicleModJei.VERSION, acceptedMinecraftVersions = "[1.12,1.12.2]", dependencies = "required-after:vehicle@[0.41.0,);required-after:jei")
 class VehicleModJei {
@@ -16,7 +17,11 @@ class VehicleModJei {
         const val FLUID_MIXER_UID = "$MOD_ID:fluid_mixer"
         const val VEHICLE_UID = "$MOD_ID:vehicle"
 
+        const val FLUID_EXTRACTOR_UNLOCALIZED_TITLE = "cvmjei.category.fluid_extracting.title"
+        const val FLUID_MIXER_UNLOCALIZED_TITLE = "cvmjei.category.fluid_mixing.title"
+        const val VEHICLE_UNLOCALIZED_TITLE = "cvmjei.category.vehicle.title"
+
         val RECIPE_GUI_VEHICLE = ResourceLocation(MOD_ID, "textures/gui/gui_vehicle.png")
-        val LOGGER = LogManager.getFormatterLogger(MOD_ID)
+        val LOGGER: Logger = LogManager.getFormatterLogger(MOD_ID)
     }
 }

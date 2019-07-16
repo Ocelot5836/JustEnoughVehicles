@@ -2,6 +2,7 @@ package com.ocelot.vehicle.jei.plugin.fluidmixer
 
 import com.mrcrayfish.vehicle.init.ModBlocks
 import com.ocelot.vehicle.jei.VehicleModJei
+import com.ocelot.vehicle.jei.plugin.workstation.VehicleCategory
 import mezz.jei.api.IGuiHelper
 import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IDrawableAnimated
@@ -9,9 +10,10 @@ import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.IRecipeCategory
 import net.minecraft.client.Minecraft
+import net.minecraft.client.resources.I18n
 import net.minecraft.item.ItemStack
 
-class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<FluidMixerRecipeWrapper> {
+class FluidMixerCategory(guiHelper: IGuiHelper) : IRecipeCategory<FluidMixerRecipeWrapper> {
 
     private val background = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 0, 0, 160, 66)
     private val icon = guiHelper.createDrawableIngredient(ItemStack(ModBlocks.FLUID_MIXER))
@@ -19,6 +21,7 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
     private val animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true)
     private val inputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 29)
     private val outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59)
+    private val localizedName = I18n.format(UNLOCALIZED_TITLE)
 
     override fun getBackground(): IDrawable = background
 
@@ -26,7 +29,7 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
 
     override fun drawExtras(minecraft: Minecraft) = animatedFlame.draw(minecraft, 1, 15)
 
-    override fun getTitle(): String = ModBlocks.FLUID_MIXER.localizedName
+    override fun getTitle(): String = localizedName
 
     override fun getModName(): String = VehicleModJei.VEHICLE_NAME
 
@@ -47,6 +50,8 @@ class FluidMixerCategory(private val guiHelper: IGuiHelper) : IRecipeCategory<Fl
     }
 
     companion object {
+        const val UNLOCALIZED_TITLE = "cvmjei.category.fluid_mixing.title"
+
         const val inputSlot = 0
         const val fluidInput1 = 0
         const val fluidInput2 = 1

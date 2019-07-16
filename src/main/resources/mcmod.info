@@ -11,6 +11,6 @@
   "credits": "MrCrayfish for making the Vehicle Mod",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["required-after:vehicle@[0.41.0,)"]
+  "dependencies": ["required-after:vehicle@[0.41.0,)","required-after:jei"]
 }
 ]

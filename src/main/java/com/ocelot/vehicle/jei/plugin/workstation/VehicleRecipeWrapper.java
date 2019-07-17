@@ -69,7 +69,7 @@ public class VehicleRecipeWrapper implements IRecipeWrapper {
 			slot.draw(minecraft, i * 18, 95);
 		}
 
-		minecraft.fontRenderer.drawString(I18n.format("cvmjei.category.vehicle.materials"), 0, 85, 4210752);
+		minecraft.fontRenderer.drawString(I18n.format(VehicleModJei.MOD_ID + ".category.vehicle.materials"), 0, 85, 4210752);
 
 		GlStateManager.enableDepth();
 		GlStateManager.color(1, 1, 1, 1);

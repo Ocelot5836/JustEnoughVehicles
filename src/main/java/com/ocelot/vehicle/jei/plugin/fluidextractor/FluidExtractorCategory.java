@@ -10,7 +10,6 @@ import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +35,7 @@ public class FluidExtractorCategory implements IRecipeCategory<FluidExtractorRec
 		this.localizedName = I18n.format(VehicleModJei.FLUID_EXTRACTOR_UNLOCALIZED_TITLE);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public IDrawable getBackground() {
 		return background;
@@ -48,19 +47,19 @@ public class FluidExtractorCategory implements IRecipeCategory<FluidExtractorRec
 		return icon;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getTitle() {
 		return localizedName;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getModName() {
 		return VehicleModJei.VEHICLE_NAME;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getUid() {
 		return VehicleModJei.FLUID_EXTRACTOR_UID;
@@ -72,7 +71,7 @@ public class FluidExtractorCategory implements IRecipeCategory<FluidExtractorRec
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @NotNull FluidExtractorRecipeWrapper recipeWrapper, @NotNull IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull FluidExtractorRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
 

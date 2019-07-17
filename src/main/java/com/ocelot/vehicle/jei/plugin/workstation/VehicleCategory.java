@@ -2,9 +2,11 @@ package com.ocelot.vehicle.jei.plugin.workstation;
 
 import com.mrcrayfish.vehicle.init.ModBlocks;
 import com.ocelot.vehicle.jei.VehicleModJei;
-import com.ocelot.vehicle.jei.plugin.fluidmixer.FluidMixerRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
@@ -12,8 +14,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper> {
@@ -37,7 +39,7 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper> {
 		this.localizedName = I18n.format(VehicleModJei.VEHICLE_UNLOCALIZED_TITLE);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public IDrawable getBackground() {
 		return background;
@@ -49,19 +51,19 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper> {
 		return icon;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getTitle() {
 		return localizedName;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getModName() {
 		return VehicleModJei.VEHICLE_NAME;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getUid() {
 		return VehicleModJei.VEHICLE_UID;
@@ -81,7 +83,7 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @NotNull VehicleRecipeWrapper recipeWrapper, @NotNull IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull VehicleRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 
 		for (int i = 0; i < ingredients.getInputs(VanillaTypes.ITEM).size(); i++) {

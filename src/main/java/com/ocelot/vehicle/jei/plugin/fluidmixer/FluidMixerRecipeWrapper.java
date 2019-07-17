@@ -44,7 +44,7 @@ public class FluidMixerRecipeWrapper implements IRecipeWrapper {
 	private final FluidStack fluidInput2;
 	private final FluidStack fluidOutput;
 
-	public FluidMixerRecipeWrapper(IGuiHelper guiHelper, List<ItemStack> itemInput, FluidStack fluidInput1, FluidStack fluidInput2, FluidStack fluidOutput) {
+	FluidMixerRecipeWrapper(IGuiHelper guiHelper, List<ItemStack> itemInput, FluidStack fluidInput1, FluidStack fluidInput2, FluidStack fluidOutput) {
 		this.progressBackgroundMask = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 17, 76, 26);
 		this.progressMask = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 65, 20, 76, 26);
 

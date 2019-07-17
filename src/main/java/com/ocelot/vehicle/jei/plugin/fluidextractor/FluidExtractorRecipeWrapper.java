@@ -27,7 +27,7 @@ public class FluidExtractorRecipeWrapper implements IRecipeWrapper {
 	private final List<ItemStack> itemInput;
 	private final FluidStack fluidOutput;
 
-	public FluidExtractorRecipeWrapper(IGuiHelper guiHelper, List<ItemStack> itemInput, FluidStack fluidOutput) {
+	FluidExtractorRecipeWrapper(IGuiHelper guiHelper, List<ItemStack> itemInput, FluidStack fluidOutput) {
 		this.progressOverlayStatic = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 0, 24, 17);
 		this.progressOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 200, 0, 24, 17);
 		this.progress = new ProgressTimer(TileEntityFluidExtractor.FLUID_MAX_PROGRESS);

@@ -1,9 +1,7 @@
 package com.ocelot.vehicle.jei.plugin.fluidmixer;
 
 import com.mrcrayfish.vehicle.init.ModBlocks;
-import com.mrcrayfish.vehicle.tileentity.TileEntityFluidExtractor;
 import com.ocelot.vehicle.jei.VehicleModJei;
-import com.ocelot.vehicle.jei.plugin.fluidextractor.FluidExtractorRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
@@ -11,8 +9,8 @@ import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapper> {
@@ -40,7 +38,7 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapp
 		this.localizedName = I18n.format(VehicleModJei.FLUID_MIXER_UNLOCALIZED_TITLE);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public IDrawable getBackground() {
 		return background;
@@ -52,19 +50,19 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapp
 		return icon;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getTitle() {
 		return localizedName;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getModName() {
 		return VehicleModJei.VEHICLE_NAME;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getUid() {
 		return VehicleModJei.FLUID_MIXER_UID;
@@ -76,7 +74,7 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapp
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @NotNull FluidMixerRecipeWrapper recipeWrapper, @NotNull IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull FluidMixerRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
 		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 		IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
 

@@ -16,8 +16,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -34,7 +34,7 @@ public class VehicleRecipeWrapper implements IRecipeWrapper {
 	private final List<List<ItemStack>> itemInputs;
 	private final VehicleIngredient vehicleOutput;
 
-	public VehicleRecipeWrapper(IGuiHelper guiHelper, List<List<ItemStack>> itemInputs, VehicleIngredient vehicleOutput) {
+	VehicleRecipeWrapper(IGuiHelper guiHelper, List<List<ItemStack>> itemInputs, VehicleIngredient vehicleOutput) {
 		this.slot = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 43, 18, 18);
 		this.slotIconColor = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 194, 43, 16, 16);
 		this.slotIconNone = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 210, 43, 16, 16);
@@ -91,7 +91,7 @@ public class VehicleRecipeWrapper implements IRecipeWrapper {
 		GlStateManager.disableDepth();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public List<String> getTooltipStrings(int mouseX, int mouseY) {
 		List<String> tooltip = new ArrayList<>();

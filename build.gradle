@@ -6,12 +6,10 @@ buildscript {
 	}
 	dependencies {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
 	}
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'kotlin'
 
 
 version = "1.0-1.12.2"
@@ -52,9 +50,6 @@ repositories {
 }
 
 dependencies {
-	// Kotlin
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
-
 	// JEI
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"

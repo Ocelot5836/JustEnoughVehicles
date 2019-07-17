@@ -6,7 +6,7 @@
   "version": "1.0",
   "mcversion": "[1.12,1,12,2]",
   "url": "https://www.curseforge.com/minecraft/mc-mods/mrcrayfishs-vehicle-mod-jei",
-  "updateUrl": "",
+  "updateUrl": "https://raw.githubusercontent.com/Ocelot5836/storage/master/mods/mrcrayfish-vehicle-mod-jei/update.json",
   "authorList": ["Ocelot5836"],
   "credits": "MrCrayfish for making the Vehicle Mod",
   "logoFile": "",

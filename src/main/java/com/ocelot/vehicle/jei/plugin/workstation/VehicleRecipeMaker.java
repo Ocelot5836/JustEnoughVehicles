@@ -9,6 +9,7 @@ import com.mrcrayfish.vehicle.item.ItemEngine;
 import com.ocelot.vehicle.jei.VehicleModJei;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.recipe.IStackHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -30,10 +31,9 @@ public class VehicleRecipeMaker {
 
 	public static List<VehicleRecipeWrapper> getRecipes(IJeiHelpers jeiHelpers) {
 		IStackHelper stackHelper = jeiHelpers.getStackHelper();
-		Map<Class<? extends Entity>, VehicleRecipes.VehicleRecipe> vehicleRecipes = VehicleRecipes.RECIPES;
+		Map<Class<? extends EntityVehicle>, VehicleRecipes.VehicleRecipe> vehicleRecipes = VehicleRecipes.RECIPES;
 
 		List<VehicleRecipeWrapper> recipes = new ArrayList<>();
-		// TODO find a way to remove this fake world
 		World fakeWorld = new WorldClient(null, new WorldSettings(0, GameType.NOT_SET, false, false, WorldType.DEFAULT), 0, EnumDifficulty.PEACEFUL, null);
 
 		vehicleRecipes.forEach((vehicleClass, vehicleRecipe) -> {

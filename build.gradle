@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.0-1.12.2"
+version = "1.1-1.12.2"
 group = "com.ocelot.jev" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "jev"
 
@@ -55,7 +55,7 @@ dependencies {
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 
 	// MrCrayfish's Vehicle Mod
-	compile 'mrcrayfishs-vehicle-mod:vehicle-mod:0.41.0:1.12.2'
+	compile 'mrcrayfishs-vehicle-mod:vehicle-mod:0.43.0:1.12.2'
 
 	// Obfuscate
 	compile 'obfuscate:Obfuscate:0.2.6:1.12.2'

@@ -23,7 +23,7 @@ public class FluidExtractorRecipeMaker {
 		List<FluidExtractorRecipeWrapper> recipes = new ArrayList<>();
 
 		extractingMap.forEach((input, output) -> {
-			List<ItemStack> itemInputs = stackHelper.getSubtypes(input);
+			List<ItemStack> itemInputs = stackHelper.getSubtypes(input.copy());
 			recipes.add(new FluidExtractorRecipeWrapper(jeiHelpers.getGuiHelper(), itemInputs, output.createStack()));
 		});
 

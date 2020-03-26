@@ -70,10 +70,5 @@ public class VehicleModJeiPlugin implements IModPlugin {
 		IIngredientBlacklist ingredientBlacklist = jeiHelpers.getIngredientBlacklist();
 		// Blacklist the models for vehicles
 		ingredientBlacklist.addIngredientToBlacklist(new ItemStack(ModItems.MODELS));
-		for (Item item : ForgeRegistries.ITEMS) {
-			if (item instanceof ItemPart) {
-				ingredientBlacklist.addIngredientToBlacklist(new ItemStack(item));
-			}
-		}
 	}
 }

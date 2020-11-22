@@ -1,0 +1,38 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)"
+license="https://www.gnu.org/licenses/gpl-3.0.en.html"
+issueTrackerURL="https://github.com/Ocelot5836/Just-Enough-Vehicles/issues" #optional
+
+[[mods]] #mandatory
+modId = "${modId}" #mandatory
+version = "${modVersion}" #mandatory
+displayName = "${modName}" #mandatory
+# updateJSONURL="http://myurl.me/" #optional
+# displayURL="http://example.com/" #optional
+# logoFile="examplemod.png" #optional
+# credits="Thanks for this example mod goes to Java" #optional
+authors="Ocelot" #optional
+description='''
+Adds JEI support for MrCrayfish's Vehicle Mod.
+'''
+
+[[dependencies.${modId}]]
+modId = "forge"
+mandatory = true
+versionRange = "[31,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${modId}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.15,1.15.2]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${modId}]]
+modId = "vehicle"
+mandatory = true
+versionRange = "[0.44.0,)"
+ordering = "NONE"
+side = "BOTH"

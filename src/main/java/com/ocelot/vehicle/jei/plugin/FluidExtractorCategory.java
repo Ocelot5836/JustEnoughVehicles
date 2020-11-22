@@ -1,5 +1,6 @@
 package com.ocelot.vehicle.jei.plugin;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mrcrayfish.vehicle.crafting.FluidExtractorRecipe;
 import com.mrcrayfish.vehicle.init.ModBlocks;
@@ -93,17 +94,21 @@ public class FluidExtractorCategory implements IRecipeCategory<FluidExtractorRec
     }
 
     @Override
-    public void draw(FluidExtractorRecipe recipe, double mouseX, double mouseY)
+    public void draw(FluidExtractorRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {
-        this.animatedFlame.draw(32, 40);
+        this.animatedFlame.draw(matrixStack, 32, 40);
 
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
+        RenderSystem.pushMatrix();
+        RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
         RenderUtil.drawGradientRectHorizontal(61, 22, 60 + progressOverlay.getWidth(), 21 + progressOverlay.getHeight(), -1, (0xff << 24) | FluidUtils.getAverageFluidColor(recipe.getResult().getFluid()));
-        this.progressOverlayStatic.draw(61, 22);
-        this.progressOverlay.draw(61, 22, 0, 0, (int) (22 * ((double) this.progress.getValue() / (double) this.progress.getMaxValue()) + 1), 0);
+        RenderSystem.popMatrix();
+
+        this.progressOverlayStatic.draw(matrixStack, 61, 22);
+        this.progressOverlay.draw(matrixStack, 61, 22, 0, 0, (int) (22 * ((double) this.progress.getValue() / (double) this.progress.getMaxValue()) + 1), 0);
 
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();

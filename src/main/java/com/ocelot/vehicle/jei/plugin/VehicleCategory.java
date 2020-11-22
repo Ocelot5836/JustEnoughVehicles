@@ -22,8 +22,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -32,7 +31,11 @@ import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.model.animation.Animation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -172,70 +175,71 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
     }
 
     @Override
-    public void draw(VehicleRecipe recipe, double mouseX, double mouseY)
+    public void draw(VehicleRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        this.shadow.draw(27, 45);
+        this.shadow.draw(matrixStack, 27, 45);
         RenderSystem.disableBlend();
 
-        this.slot.draw(0, 64);
-        this.slot.draw(20, 64);
-        this.slot.draw(40, 64);
-        this.slot.draw(126, 64);
+        this.slot.draw(matrixStack, 0, 64);
+        this.slot.draw(matrixStack, 20, 64);
+        this.slot.draw(matrixStack, 40, 64);
+        this.slot.draw(matrixStack, 126, 64);
         Entity vehicle = getEntity(recipe);
 
         if (!SlotType.COLOR.isApplicable(vehicle))
-            this.slotIconNone.draw(1, 65);
+            this.slotIconNone.draw(matrixStack, 1, 65);
         if (!SlotType.ENGINE.isApplicable(vehicle))
-            this.slotIconNone.draw(21, 65);
+            this.slotIconNone.draw(matrixStack, 21, 65);
         if (!SlotType.WHEELS.isApplicable(vehicle))
-            this.slotIconNone.draw(41, 65);
+            this.slotIconNone.draw(matrixStack, 41, 65);
         for (int i = 0; i < MATERIAL_SLOTS; i++)
-            this.slot.draw(i * 18, 95);
+            this.slot.draw(matrixStack, i * 18, 95);
 
-        Minecraft.getInstance().fontRenderer.drawString(I18n.format(VehicleModJei.MOD_ID + ".category.vehicle.materials"), 0, 85, 4210752);
+        Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format(VehicleModJei.MOD_ID + ".category.vehicle.materials"), 0, 85, 4210752);
 
         if (vehicle == null)
             return;
 
         RenderSystem.pushMatrix();
+        RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
         RenderSystem.translatef(72, 50, 1050.0F);
         RenderSystem.scalef(-1.0F, -1.0F, -1.0F);
-        MatrixStack matrixStack = new MatrixStack();
-        matrixStack.translate(0.0D, 0.0D, 1000.0D);
-        matrixStack.scale(SCALE, SCALE, SCALE);
+        MatrixStack ms = new MatrixStack();
+        ms.translate(0.0D, 0.0D, 1000.0D);
+        ms.scale(SCALE, SCALE, SCALE);
         Quaternion quaternion = Vector3f.XN.rotationDegrees(5.0F);
-        Quaternion quaternion1 = Vector3f.YN.rotationDegrees(Objects.requireNonNull(Minecraft.getInstance().player).ticksExisted + Animation.getPartialTickTime());
+        Quaternion quaternion1 = Vector3f.YN.rotationDegrees((float) Objects.requireNonNull(Minecraft.getInstance().player).ticksExisted + Animation.getPartialTickTime());
         quaternion.multiply(quaternion1);
-        matrixStack.rotate(quaternion);
-        VehicleProperties properties = VehicleProperties.getProperties(vehicle.getType());
+        ms.rotate(quaternion);
+        VehicleProperties properties = VehicleProperties.getProperties(recipe.getVehicle());
         PartPosition position = PartPosition.DEFAULT;
-        if (properties != null)
-        {
+        if (properties != null) {
             position = properties.getDisplayPosition();
         }
 
-        matrixStack.scale((float) position.getScale(), (float) position.getScale(), (float) position.getScale());
-        matrixStack.rotate(Axis.POSITIVE_X.rotationDegrees((float) position.getRotX()));
-        matrixStack.rotate(Axis.POSITIVE_Y.rotationDegrees((float) position.getRotY()));
-        matrixStack.rotate(Axis.POSITIVE_Z.rotationDegrees((float) position.getRotZ()));
-        matrixStack.translate(position.getX(), position.getY(), position.getZ());
+        ms.scale((float)position.getScale(), (float)position.getScale(), (float)position.getScale());
+        ms.rotate(Axis.POSITIVE_X.rotationDegrees((float)position.getRotX()));
+        ms.rotate(Axis.POSITIVE_Y.rotationDegrees((float)position.getRotY()));
+        ms.rotate(Axis.POSITIVE_Z.rotationDegrees((float)position.getRotZ()));
+        ms.translate(position.getX(), position.getY(), position.getZ());
         EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
         renderManager.setRenderShadow(false);
         renderManager.setCameraOrientation(quaternion);
         IRenderTypeBuffer.Impl renderTypeBuffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-        renderManager.renderEntityStatic(vehicle, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, renderTypeBuffer, 15728880);
+        RenderSystem.runAsFancy(() -> renderManager.renderEntityStatic(vehicle, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, ms, renderTypeBuffer, 15728880));
         renderTypeBuffer.finish();
         renderManager.setRenderShadow(true);
+        ms.pop();
         RenderSystem.popMatrix();
     }
 
     @Nonnull
     @Override
-    public List<String> getTooltipStrings(VehicleRecipe recipe, double mouseX, double mouseY)
+    public List<ITextComponent> getTooltipStrings(VehicleRecipe recipe, double mouseX, double mouseY)
     {
-        List<String> tooltip = new ArrayList<>();
+        List<ITextComponent> tooltip = new ArrayList<>();
 
         for (int i = 0; i < SlotType.values().length; i++)
             addSlotTooltip(tooltip, i * 20, recipe, mouseX, mouseY, SlotType.values()[i]);
@@ -243,15 +247,15 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
         return tooltip;
     }
 
-    private void addSlotTooltip(List<String> tooltip, int slotX, VehicleRecipe recipe, double mouseX, double mouseY, SlotType type)
+    private void addSlotTooltip(List<ITextComponent> tooltip, int slotX, VehicleRecipe recipe, double mouseX, double mouseY, SlotType type)
     {
         if (type.isApplicable(getEntity(recipe)))
             return;
 
         if (mouseX >= slotX && mouseX < slotX + 18 && mouseY >= 64 && mouseY < 82)
         {
-            tooltip.add(TextFormatting.WHITE + I18n.format("vehicle.tooltip." + type.registryName));
-            tooltip.add(TextFormatting.GRAY + I18n.format("vehicle.tooltip.not_applicable"));
+            tooltip.add(new TranslationTextComponent("vehicle.tooltip." + type.registryName));
+            tooltip.add(new TranslationTextComponent("vehicle.tooltip.not_applicable"));
         }
     }
 

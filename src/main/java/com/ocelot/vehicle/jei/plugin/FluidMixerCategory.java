@@ -1,6 +1,6 @@
 package com.ocelot.vehicle.jei.plugin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mrcrayfish.vehicle.crafting.FluidMixerRecipe;
 import com.mrcrayfish.vehicle.init.ModBlocks;
@@ -107,9 +107,9 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
     }
 
     @Override
-    public void draw(FluidMixerRecipe recipe, double mouseX, double mouseY)
+    public void draw(FluidMixerRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {
-        this.animatedFlame.draw(1, 15);
+        this.animatedFlame.draw(matrixStack, 1, 15);
         int fluidInput1Color = FluidUtils.getAverageFluidColor(recipe.getInputs()[0].getFluid());
         int fluidInput2Color = FluidUtils.getAverageFluidColor(recipe.getInputs()[1].getFluid());
         int fluidOutputColor = FluidUtils.getAverageFluidColor(recipe.getResult().getFluid());
@@ -123,8 +123,8 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        Screen.fill(43, 11, 43 + (int) (percentageBarHorizontal * BAR_HORIZONTAL), 11 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput1Color);
-        Screen.fill(43, 47, 43 + (int) (percentageBarHorizontal * BAR_HORIZONTAL), 47 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput2Color);
+        Screen.fill(matrixStack, 43, 11, 43 + (int) (percentageBarHorizontal * BAR_HORIZONTAL), 11 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput1Color);
+        Screen.fill(matrixStack, 43, 47, 43 + (int) (percentageBarHorizontal * BAR_HORIZONTAL), 47 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput2Color);
 
         if (progressPercentage >= percentagePrevious)
         {
@@ -135,8 +135,8 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
             int fluidInput1JunctionColor = alpha << 24 | fluidInput1Color;
             int fluidInput2JunctionColor = alpha << 24 | fluidInput2Color;
 
-            Screen.fill(55, 10, 55 + JUNCTION_SIZE, 10 + JUNCTION_SIZE, fluidInput1JunctionColor);
-            Screen.fill(55, 46, 55 + JUNCTION_SIZE, 46 + JUNCTION_SIZE, fluidInput2JunctionColor);
+            Screen.fill(matrixStack, 55, 10, 55 + JUNCTION_SIZE, 10 + JUNCTION_SIZE, fluidInput1JunctionColor);
+            Screen.fill(matrixStack, 55, 46, 55 + JUNCTION_SIZE, 46 + JUNCTION_SIZE, fluidInput2JunctionColor);
         }
 
         if (progressPercentage >= percentagePrevious)
@@ -144,8 +144,8 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
             double percentageBarVertical = MathHelper.clamp((progressPercentage - percentagePrevious) / ((double) BAR_VERTICAL / (double) SUM_LENGTH), 0, 1);
             percentagePrevious += (double) BAR_VERTICAL / (double) SUM_LENGTH;
 
-            Screen.fill(56, 20, 56 + BAR_VERTICAL, 20 + (int) (percentageBarVertical * BAR_VERTICAL), FLUID_ALPHA << 24 | fluidInput1Color);
-            Screen.fill(56, 38 + BAR_VERTICAL - (int) (percentageBarVertical * BAR_VERTICAL), 56 + BAR_VERTICAL, 38 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput2Color);
+            Screen.fill(matrixStack, 56, 20, 56 + BAR_VERTICAL, 20 + (int) (percentageBarVertical * BAR_VERTICAL), FLUID_ALPHA << 24 | fluidInput1Color);
+            Screen.fill(matrixStack, 56, 38 + BAR_VERTICAL - (int) (percentageBarVertical * BAR_VERTICAL), 56 + BAR_VERTICAL, 38 + BAR_VERTICAL, FLUID_ALPHA << 24 | fluidInput2Color);
         }
 
         if (progressPercentage >= percentagePrevious)
@@ -156,7 +156,7 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
             int alpha = (int) ((double) 0x82 * percentageJunction);
             int color = (alpha << 24) | startColor;
 
-            Screen.fill(55, 28, 55 + JUNCTION_SIZE, 28 + JUNCTION_SIZE, color);
+            Screen.fill(matrixStack, 55, 28, 55 + JUNCTION_SIZE, 28 + JUNCTION_SIZE, color);
         }
 
         if (progressPercentage >= percentagePrevious)
@@ -164,14 +164,16 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
             double percentageMix = MathHelper.clamp((progressPercentage - percentagePrevious) / ((double) MIX_HORIZONTAL / (double) SUM_LENGTH), 0, 1);
 
             RenderSystem.disableDepthTest();
+            RenderSystem.pushMatrix();
+            RenderSystem.multMatrix(matrixStack.getLast().getMatrix());
             RenderUtil.drawGradientRectHorizontal(65, 20, 65 + MIX_HORIZONTAL, 46, FLUID_ALPHA << 24 | startColor, FLUID_ALPHA << 24 | fluidOutputColor);
-            RenderSystem.color4f(1f, 1f, 1f, 1f);
-            this.progressBackgroundMask.draw(65, 20);
-            this.progressMask.draw(65, 20, 0, 0, (int) (percentageMix * MIX_HORIZONTAL), 0);
+            RenderSystem.popMatrix();
+            this.progressBackgroundMask.draw(matrixStack, 65, 20);
+            this.progressMask.draw(matrixStack, 65, 20, 0, 0, (int) (percentageMix * MIX_HORIZONTAL), 0);
             RenderSystem.enableDepthTest();
         }
 
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
     }
 
     @Override

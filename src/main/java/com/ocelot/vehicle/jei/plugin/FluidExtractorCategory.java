@@ -1,4 +1,4 @@
-package com.ocelot.vehicle.jei.plugin.fluidextractor;
+package com.ocelot.vehicle.jei.plugin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mrcrayfish.vehicle.crafting.FluidExtractorRecipe;

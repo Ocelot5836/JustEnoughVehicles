@@ -1,4 +1,4 @@
-package com.ocelot.vehicle.jei.plugin.fluidmixer;
+package com.ocelot.vehicle.jei.plugin;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,7 +23,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.model.animation.Animation;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;

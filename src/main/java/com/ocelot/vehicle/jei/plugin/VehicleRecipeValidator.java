@@ -3,10 +3,8 @@ package com.ocelot.vehicle.jei.plugin;
 import com.mrcrayfish.vehicle.crafting.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -116,44 +114,6 @@ public final class VehicleRecipeValidator
     private static Collection<IRecipe<?>> getRecipes(RecipeManager recipeManager, IRecipeType<?> recipeType)
     {
         return recipeManager.getRecipes().stream().filter(recipe -> recipe.getType() == recipeType).collect(Collectors.toSet());
-    }
-
-    private static final class CategoryRecipeValidator<T extends IRecipe<?>>
-    {
-        private final int maxInputs;
-
-        public CategoryRecipeValidator(int maxInputs)
-        {
-            this.maxInputs = maxInputs;
-        }
-
-        public boolean isRecipeValid(T recipe)
-        {
-            if (recipe.isDynamic())
-                return false;
-
-            ItemStack recipeOutput = recipe.getRecipeOutput();
-            if (recipeOutput.isEmpty())
-            {
-                LOGGER.error("Recipe has no output. {}", recipe.getId());
-                return false;
-            }
-
-            List<Ingredient> ingredients = recipe.getIngredients();
-            if (ingredients.isEmpty())
-            {
-                LOGGER.error("Recipe has no input Ingredients. {}", recipe.getId());
-                return false;
-            }
-
-            if (ingredients.size() > this.maxInputs)
-            {
-                LOGGER.error("Recipe has too many inputs. {}", recipe.getId());
-                return false;
-            }
-
-            return true;
-        }
     }
 
     public static class Results

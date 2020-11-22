@@ -1,4 +1,4 @@
-package com.ocelot.vehicle.jei.plugin.workstation;
+package com.ocelot.vehicle.jei.plugin;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -37,6 +37,7 @@ import net.minecraftforge.client.model.animation.Animation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -70,6 +71,7 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
         this.localizedName = I18n.format(VehicleModJei.VEHICLE_UNLOCALIZED_TITLE);
     }
 
+    @Nullable
     private static Entity getEntity(VehicleRecipe recipe)
     {
         return VEHICLES.computeIfAbsent(recipe.getVehicle(), key -> key.create(Objects.requireNonNull(Minecraft.getInstance().world)));
@@ -174,34 +176,28 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
     {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        shadow.draw(27, 45);
+        this.shadow.draw(27, 45);
         RenderSystem.disableBlend();
 
-        slot.draw(0, 64);
-        slot.draw(20, 64);
-        slot.draw(40, 64);
-        slot.draw(126, 64);
+        this.slot.draw(0, 64);
+        this.slot.draw(20, 64);
+        this.slot.draw(40, 64);
+        this.slot.draw(126, 64);
         Entity vehicle = getEntity(recipe);
 
         if (!SlotType.COLOR.isApplicable(vehicle))
-        {
-            slotIconNone.draw(1, 65);
-        }
+            this.slotIconNone.draw(1, 65);
         if (!SlotType.ENGINE.isApplicable(vehicle))
-        {
-            slotIconNone.draw(21, 65);
-        }
+            this.slotIconNone.draw(21, 65);
         if (!SlotType.WHEELS.isApplicable(vehicle))
-        {
-            slotIconNone.draw(41, 65);
-        }
-
+            this.slotIconNone.draw(41, 65);
         for (int i = 0; i < MATERIAL_SLOTS; i++)
-        {
-            slot.draw(i * 18, 95);
-        }
+            this.slot.draw(i * 18, 95);
 
         Minecraft.getInstance().fontRenderer.drawString(I18n.format(VehicleModJei.MOD_ID + ".category.vehicle.materials"), 0, 85, 4210752);
+
+        if (vehicle == null)
+            return;
 
         RenderSystem.pushMatrix();
         RenderSystem.translatef(72, 50, 1050.0F);
@@ -288,7 +284,7 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
             this.applicable = applicable;
         }
 
-        private boolean isApplicable(Entity entity)
+        private boolean isApplicable(@Nullable Entity entity)
         {
             return entity instanceof VehicleEntity && applicable.test((VehicleEntity) entity);
         }

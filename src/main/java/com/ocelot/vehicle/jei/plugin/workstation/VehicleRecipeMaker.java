@@ -11,6 +11,7 @@ import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.recipe.IStackHelper;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -18,14 +19,14 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class VehicleRecipeMaker
+/**
+ * @author Ocelot
+ */
+public final class VehicleRecipeMaker
 {
-
     private VehicleRecipeMaker()
     {
     }
@@ -56,6 +57,15 @@ public class VehicleRecipeMaker
 
             List<List<ItemStack>> itemInputs = new ArrayList<>();
             VehicleIngredient vehicleOutput = new VehicleIngredient((EntityVehicle) vehicleEntity, vehicleEntry);
+
+            if (((EntityVehicle) vehicleEntity).canBeColored())
+            {
+                itemInputs.add(stackHelper.getSubtypes(new ItemStack(Items.DYE, 1, OreDictionary.WILDCARD_VALUE)));
+            }
+            else
+            {
+                itemInputs.add(Collections.emptyList());
+            }
 
             if (vehicleEntity instanceof EntityPoweredVehicle)
             {

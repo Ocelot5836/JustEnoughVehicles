@@ -18,9 +18,11 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Ocelot
+ */
 public class FluidExtractorRecipeWrapper implements IRecipeWrapper
 {
-
     private final IDrawableStatic progressOverlayStatic;
     private final IDrawableStatic progressOverlay;
     private final ITickTimer progress;
@@ -52,9 +54,9 @@ public class FluidExtractorRecipeWrapper implements IRecipeWrapper
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-        RenderUtil.drawGradientRectHorizontal(61, 22, 60 + progressOverlay.getWidth(), 21 + progressOverlay.getHeight(), -1, (0xff << 24) | FluidUtils.getAverageFluidColor(fluidOutput.getFluid()), 0.0);
-        progressOverlayStatic.draw(minecraft, 61, 22);
-        progressOverlay.draw(minecraft, 61, 22, 0, 0, (int) (22 * ((double) this.progress.getValue() / (double) this.progress.getMaxValue()) + 1), 0);
+        RenderUtil.drawGradientRectHorizontal(61, 22, 60 + this.progressOverlay.getWidth(), 21 + this.progressOverlay.getHeight(), -1, (0xff << 24) | FluidUtils.getAverageFluidColor(fluidOutput.getFluid()), 0.0);
+        this.progressOverlayStatic.draw(minecraft, 61, 22);
+        this.progressOverlay.draw(minecraft, 61, 22, 0, 0, (int) (22 * ((double) this.progress.getValue() / (double) this.progress.getMaxValue()) + 1), 0);
 
         GlStateManager.disableBlend();
         GlStateManager.enableDepth();

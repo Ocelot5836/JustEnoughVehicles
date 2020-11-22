@@ -13,78 +13,83 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapper> {
+/**
+ * @author Ocelot
+ */
+public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipeWrapper>
+{
+    private final IDrawableStatic background;
+    private final IDrawable icon;
+    private final IDrawableAnimated animatedFlame;
+    private final IDrawableStatic inputOverlay;
+    private final IDrawableStatic outputOverlay;
+    private final String localizedName;
 
-	private static final int INPUT_SLOT = 0;
-	private static final int INPUT_TANK_1 = 0;
-	private static final int INPUT_TANK_2 = 1;
-	private static final int OUTPUT_TANK = 2;
+    public FluidMixerCategory(IGuiHelper guiHelper)
+    {
+        IDrawableStatic staticFlame = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 0, 14, 14);
 
-	private final IDrawableStatic background;
-	private final IDrawable icon;
-	private final IDrawableAnimated animatedFlame;
-	private final IDrawableStatic inputOverlay;
-	private final IDrawableStatic outputOverlay;
-	private final String localizedName;
+        this.background = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 0, 0, 160, 66);
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.FLUID_MIXER));
+        this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
+        this.inputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 29);
+        this.outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59);
+        this.localizedName = I18n.format(VehicleModJei.FLUID_MIXER_UNLOCALIZED_TITLE);
+    }
 
-	public FluidMixerCategory(IGuiHelper guiHelper) {
-		IDrawableStatic staticFlame = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 0, 14, 14);
+    @Nonnull
+    @Override
+    public IDrawable getBackground()
+    {
+        return background;
+    }
 
-		this.background = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 0, 0, 160, 66);
-		this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.FLUID_MIXER));
-		this.animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-		this.inputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 29);
-		this.outputOverlay = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 160, 14, 16, 59);
-		this.localizedName = I18n.format(VehicleModJei.FLUID_MIXER_UNLOCALIZED_TITLE);
-	}
+    @Nullable
+    @Override
+    public IDrawable getIcon()
+    {
+        return icon;
+    }
 
-	@Nonnull
-	@Override
-	public IDrawable getBackground() {
-		return background;
-	}
+    @Nonnull
+    @Override
+    public String getTitle()
+    {
+        return localizedName;
+    }
 
-	@Nullable
-	@Override
-	public IDrawable getIcon() {
-		return icon;
-	}
+    @Nonnull
+    @Override
+    public String getModName()
+    {
+        return VehicleModJei.NAME;
+    }
 
-	@Nonnull
-	@Override
-	public String getTitle() {
-		return localizedName;
-	}
+    @Nonnull
+    @Override
+    public String getUid()
+    {
+        return VehicleModJei.FLUID_MIXER_UID;
+    }
 
-	@Nonnull
-	@Override
-	public String getModName() {
-		return VehicleModJei.VEHICLE_NAME;
-	}
+    @Override
+    public void drawExtras(Minecraft minecraft)
+    {
+        this.animatedFlame.draw(minecraft, 1, 15);
+    }
 
-	@Nonnull
-	@Override
-	public String getUid() {
-		return VehicleModJei.FLUID_MIXER_UID;
-	}
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, @Nonnull FluidMixerRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients)
+    {
+        IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
+        IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
 
-	@Override
-	public void drawExtras(Minecraft minecraft) {
-		this.animatedFlame.draw(minecraft, 1, 15);
-	}
+        stacks.init(0, true, 94, 24);
+        fluids.init(0, true, 25, 1, 16, 29, 5000, false, inputOverlay);
+        fluids.init(1, true, 25, 36, 16, 29, 5000, false, inputOverlay);
+        fluids.init(2, false, 143, 4, 16, 59, 10000, false, outputOverlay);
 
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull FluidMixerRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-		IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
-
-		stacks.init(INPUT_SLOT, true, 94, 24);
-
-		fluids.init(INPUT_TANK_1, true, 25, 1, 16, 29, 5000, false, inputOverlay);
-		fluids.init(INPUT_TANK_2, true, 25, 36, 16, 29, 5000, false, inputOverlay);
-		fluids.init(OUTPUT_TANK, false, 143, 4, 16, 59, 10000, false, outputOverlay);
-
-		stacks.set(ingredients);
-		fluids.set(ingredients);
-	}
+        stacks.set(ingredients);
+        fluids.set(ingredients);
+    }
 }

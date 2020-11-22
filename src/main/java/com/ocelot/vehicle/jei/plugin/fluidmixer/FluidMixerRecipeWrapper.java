@@ -21,9 +21,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Ocelot
+ */
 public class FluidMixerRecipeWrapper implements IRecipeWrapper
 {
-
     public static final int BAR_HORIZONTAL = 12;
     public static final int BAR_VERTICAL = 8;
     public static final int MIX_HORIZONTAL = 76;

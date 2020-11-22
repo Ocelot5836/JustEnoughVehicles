@@ -10,33 +10,40 @@ import org.apache.commons.lang3.Validate;
 
 import java.util.Objects;
 
-public class VehicleIngredient {
+/**
+ * @author Ocelot
+ */
+public class VehicleIngredient
+{
+    public final EntityVehicle vehicle;
+    private final EntityEntry vehicleEntry;
+    public final ItemStack crate;
 
-	public final EntityVehicle vehicle;
-	private final EntityEntry vehicleEntry;
-	public final ItemStack crate;
+    VehicleIngredient(EntityVehicle vehicle, EntityEntry vehicleEntry)
+    {
+        Validate.notNull(vehicleEntry.getRegistryName(), "Registry name of Vehicle {} cannot be null!", vehicle.getClass());
+        this.vehicle = vehicle;
+        this.vehicleEntry = vehicleEntry;
+        this.crate = BlockVehicleCrate.create(vehicleEntry.getRegistryName(), 0, EngineTier.WOOD, WheelType.STANDARD, 0);
+    }
 
-	VehicleIngredient(EntityVehicle vehicle, EntityEntry vehicleEntry) {
-		Validate.notNull(vehicleEntry.getRegistryName(), "Registry name of Vehicle {} cannot be null!", vehicle.getClass());
-		this.vehicle = vehicle;
-		this.vehicleEntry = vehicleEntry;
-		this.crate = BlockVehicleCrate.create(vehicleEntry.getRegistryName(), 0, EngineTier.WOOD, WheelType.STANDARD, 0);
-	}
+    @Override
+    public boolean equals(Object other)
+    {
+        if (this == other) return true;
+        if (!(other instanceof VehicleIngredient)) return false;
+        return this.vehicleEntry.equals(((VehicleIngredient) other).vehicleEntry);
+    }
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) return true;
-		if (!(other instanceof VehicleIngredient)) return false;
-		return this.vehicleEntry.equals(((VehicleIngredient) other).vehicleEntry);
-	}
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(this.vehicleEntry);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(this.vehicleEntry);
-	}
-
-	@Override
-	public String toString() {
-		return "VehicleIngredient(vehicle=" + this.vehicleEntry.getRegistryName() + ")";
-	}
+    @Override
+    public String toString()
+    {
+        return "VehicleIngredient{vehicleEntry=" + this.vehicleEntry.getRegistryName() + "}";
+    }
 }

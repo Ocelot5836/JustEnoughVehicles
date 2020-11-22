@@ -22,14 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * @author Ocelot
+ */
 public class VehicleRecipeWrapper implements IRecipeWrapper
 {
-
     public static final float SCALE = 20;
     public static final int MATERIAL_SLOTS = 8;
 
     private final IDrawableStatic slot;
-    private final IDrawableStatic slotIconColor;
     private final IDrawableStatic slotIconNone;
 
     private final List<List<ItemStack>> itemInputs;
@@ -38,8 +39,7 @@ public class VehicleRecipeWrapper implements IRecipeWrapper
     VehicleRecipeWrapper(IGuiHelper guiHelper, List<List<ItemStack>> itemInputs, VehicleIngredient vehicleOutput)
     {
         this.slot = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 43, 18, 18);
-        this.slotIconColor = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 194, 43, 16, 16);
-        this.slotIconNone = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 210, 43, 16, 16);
+        this.slotIconNone = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 194, 43, 16, 16);
 
         this.itemInputs = itemInputs;
         this.vehicleOutput = vehicleOutput;
@@ -57,22 +57,12 @@ public class VehicleRecipeWrapper implements IRecipeWrapper
     {
         EntityVehicle vehicle = vehicleOutput.vehicle;
 
-        if (SlotType.COLOR.isApplicable(vehicle))
-        {
-            slotIconColor.draw(minecraft, 1, 65);
-        }
-        else
-        {
+        if (!SlotType.COLOR.isApplicable(vehicle))
             slotIconNone.draw(minecraft, 1, 65);
-        }
         if (!SlotType.ENGINE.isApplicable(vehicle))
-        {
             slotIconNone.draw(minecraft, 21, 65);
-        }
         if (!SlotType.WHEELS.isApplicable(vehicle))
-        {
             slotIconNone.draw(minecraft, 41, 65);
-        }
 
         for (int i = 0; i < MATERIAL_SLOTS; i++)
         {
@@ -109,27 +99,20 @@ public class VehicleRecipeWrapper implements IRecipeWrapper
     {
         List<String> tooltip = new ArrayList<>();
 
-        addSlotTooltip(tooltip, 0, 64, mouseX, mouseY, SlotType.COLOR);
-        addSlotTooltip(tooltip, 20, 64, mouseX, mouseY, SlotType.ENGINE);
-        addSlotTooltip(tooltip, 40, 64, mouseX, mouseY, SlotType.WHEELS);
+        for (int i = 0; i < SlotType.values().length; i++)
+            addSlotTooltip(tooltip, i * 20, 64, mouseX, mouseY, SlotType.values()[i]);
 
         return tooltip;
     }
 
     private void addSlotTooltip(List<String> tooltip, int slotX, int slotY, int mouseX, int mouseY, SlotType type)
     {
+        if (type.isApplicable(vehicleOutput.vehicle))
+            return;
         if (mouseX >= slotX && mouseX < slotX + 18 && mouseY >= slotY && mouseY < slotY + 18)
         {
-            if (!type.isApplicable(vehicleOutput.vehicle))
-            {
-                tooltip.add(TextFormatting.WHITE + I18n.format("vehicle.tooltip." + type.registryName));
-                tooltip.add(TextFormatting.GRAY + I18n.format("vehicle.tooltip.not_applicable"));
-            }
-            else if (type == SlotType.COLOR)
-            {
-                tooltip.add(TextFormatting.AQUA + I18n.format("vehicle.tooltip.optional"));
-                tooltip.add(TextFormatting.GRAY + I18n.format("vehicle.tooltip." + type.registryName));
-            }
+            tooltip.add(TextFormatting.WHITE + I18n.format("vehicle.tooltip." + type.registryName));
+            tooltip.add(TextFormatting.GRAY + I18n.format("vehicle.tooltip.not_applicable"));
         }
     }
 
@@ -151,11 +134,6 @@ public class VehicleRecipeWrapper implements IRecipeWrapper
         public boolean isApplicable(EntityVehicle vehicle)
         {
             return applicable.apply(vehicle);
-        }
-
-        public String getRegistryName()
-        {
-            return registryName;
         }
     }
 }

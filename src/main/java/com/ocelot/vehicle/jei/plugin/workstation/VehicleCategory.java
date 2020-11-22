@@ -18,81 +18,87 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper> {
+/**
+ * @author Ocelot
+ */
+public class VehicleCategory implements IRecipeCategory<VehicleRecipeWrapper>
+{
+    private final IDrawableStatic background;
+    private final IDrawable icon;
+    private final IDrawableStatic shadow;
+    private final IDrawableStatic slot;
+    private final String localizedName;
 
-	private static final int ENGINE_SLOT = 0;
-	private static final int WHEELS_SLOT = 1;
-	private static final int OUTPUT_SLOT = 2;
-	private static final int INGREDIENTS_SLOT_START = 3;
+    public VehicleCategory(IGuiHelper guiHelper)
+    {
+        this.background = guiHelper.createBlankDrawable(144, 113);
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.WORKSTATION));
+        this.shadow = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 112, 74, 90, 10);
+        this.slot = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 43, 18, 18);
+        this.localizedName = I18n.format(VehicleModJei.VEHICLE_UNLOCALIZED_TITLE);
+    }
 
-	private final IDrawableStatic background;
-	private final IDrawable icon;
-	private final IDrawableStatic shadow;
-	private final IDrawableStatic slot;
-	private final String localizedName;
+    @Nonnull
+    @Override
+    public IDrawable getBackground()
+    {
+        return background;
+    }
 
-	public VehicleCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createBlankDrawable(144, 113);
-		this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.WORKSTATION));
-		this.shadow = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 112, 74, 90, 10);
-		this.slot = guiHelper.createDrawable(VehicleModJei.RECIPE_GUI_VEHICLE, 176, 43, 18, 18);
-		this.localizedName = I18n.format(VehicleModJei.VEHICLE_UNLOCALIZED_TITLE);
-	}
+    @Nullable
+    @Override
+    public IDrawable getIcon()
+    {
+        return icon;
+    }
 
-	@Nonnull
-	@Override
-	public IDrawable getBackground() {
-		return background;
-	}
+    @Nonnull
+    @Override
+    public String getTitle()
+    {
+        return localizedName;
+    }
 
-	@Nullable
-	@Override
-	public IDrawable getIcon() {
-		return icon;
-	}
+    @Nonnull
+    @Override
+    public String getModName()
+    {
+        return VehicleModJei.NAME;
+    }
 
-	@Nonnull
-	@Override
-	public String getTitle() {
-		return localizedName;
-	}
+    @Nonnull
+    @Override
+    public String getUid()
+    {
+        return VehicleModJei.VEHICLE_UID;
+    }
 
-	@Nonnull
-	@Override
-	public String getModName() {
-		return VehicleModJei.VEHICLE_NAME;
-	}
+    @Override
+    public void drawExtras(Minecraft minecraft)
+    {
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        this.shadow.draw(minecraft, 27, 45);
+        GlStateManager.disableBlend();
 
-	@Nonnull
-	@Override
-	public String getUid() {
-		return VehicleModJei.VEHICLE_UID;
-	}
+        this.slot.draw(minecraft, 0, 64);
+        this.slot.draw(minecraft, 20, 64);
+        this.slot.draw(minecraft, 40, 64);
+        this.slot.draw(minecraft, 126, 64);
+    }
 
-	@Override
-	public void drawExtras(Minecraft minecraft) {
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		shadow.draw(minecraft, 27, 45);
-		GlStateManager.disableBlend();
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, @Nonnull VehicleRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients)
+    {
+        IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
 
-		slot.draw(minecraft, 0, 64);
-		slot.draw(minecraft, 20, 64);
-		slot.draw(minecraft, 40, 64);
-		slot.draw(minecraft, 126, 64);
-	}
+        stacks.init(0, true, 0, 64);
+        stacks.init(1, true, 20, 64);
+        stacks.init(2, true, 40, 64);
+        stacks.init(3, false, 126, 64);
+        for (int i = 0; i < ingredients.getInputs(VanillaTypes.ITEM).size(); i++)
+            stacks.init(4 + i, true, (i % 8) * 18, 95 + (i / 8) * 18);
 
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull VehicleRecipeWrapper recipeWrapper, @Nonnull IIngredients ingredients) {
-		IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-
-		for (int i = 0; i < ingredients.getInputs(VanillaTypes.ITEM).size(); i++) {
-			stacks.init(i + INGREDIENTS_SLOT_START, true, (i % 8) * 18, 95 + (i / 8) * 18);
-		}
-		stacks.init(ENGINE_SLOT, true, 20, 64);
-		stacks.init(WHEELS_SLOT, true, 40, 64);
-		stacks.init(OUTPUT_SLOT, false, 126, 64);
-
-		stacks.set(ingredients);
-	}
+        stacks.set(ingredients);
+    }
 }

@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 public class VehicleModJei
 {
     public static final String MOD_ID = "jev";
-    public static final String VEHICLE_NAME = "MrCrayfish's Vehicle Mod";
 
     public static final ResourceLocation FLUID_EXTRACTOR_UID = new ResourceLocation(MOD_ID, "fluid_extractor");
     public static final ResourceLocation FLUID_MIXER_UID = new ResourceLocation(MOD_ID, "fluid_mixer");
@@ -23,5 +22,4 @@ public class VehicleModJei
     public static final String VEHICLE_UNLOCALIZED_TITLE = MOD_ID + ".category.vehicle.title";
 
     public static final ResourceLocation RECIPE_GUI_VEHICLE = new ResourceLocation(MOD_ID, "textures/gui/gui_vehicle.png");
-    public static final Logger LOGGER = LogManager.getFormatterLogger(MOD_ID);
 }

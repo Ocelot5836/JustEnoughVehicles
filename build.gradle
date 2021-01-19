@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
 version = "${project.minecraft}-${project.modVersion}"
-group = "com.ocelot"
+group = "io.github.ocelot"
 archivesBaseName = project.modId
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -29,6 +29,7 @@ minecraft {
 	runs {
 		client {
 			workingDirectory project.file('run/client')
+			property "mixin.env.disableRefMap", "true"
 			property 'forge.logging.console.level', 'debug'
 
 			mods {
@@ -40,6 +41,7 @@ minecraft {
 
 		server {
 			workingDirectory project.file('run/server')
+			property "mixin.env.disableRefMap", "true"
 			property 'forge.logging.console.level', 'debug'
 
 			mods {
@@ -51,6 +53,7 @@ minecraft {
 
 		data {
 			workingDirectory project.file('run/data')
+			property "mixin.env.disableRefMap", "true"
 			property 'forge.logging.console.level', 'debug'
 			args '--mod', 'jev', '--all', '--output', file('src/generated/resources/')
 			mods {
@@ -86,8 +89,8 @@ dependencies {
 	// at runtime, use the full JEI jar
 	runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft}:${project.jei}")
 
-	runtimeOnly fg.deobf("curse.maven:obfuscate:${project.obfuscate}")
-	implementation fg.deobf("curse.maven:vehicle:${project.vehicle}")
+	runtimeOnly fg.deobf("curse.maven:obfuscate-289380:${project.obfuscate}")
+	implementation fg.deobf("curse.maven:vehicle-286660:${project.vehicle}")
 }
 
 processResources {

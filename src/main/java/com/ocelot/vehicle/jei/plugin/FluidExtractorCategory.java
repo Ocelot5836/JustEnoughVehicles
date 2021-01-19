@@ -93,6 +93,7 @@ public class FluidExtractorCategory implements IRecipeCategory<FluidExtractorRec
         return FluidExtractorRecipe.class;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void draw(FluidExtractorRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {

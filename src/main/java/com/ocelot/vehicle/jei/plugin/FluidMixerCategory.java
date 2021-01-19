@@ -106,6 +106,7 @@ public class FluidMixerCategory implements IRecipeCategory<FluidMixerRecipe>
         return FluidMixerRecipe.class;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void draw(FluidMixerRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {

@@ -22,7 +22,6 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -34,7 +33,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.model.animation.Animation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -174,6 +172,7 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
         return VehicleRecipe.class;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void draw(VehicleRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY)
     {
@@ -215,14 +214,15 @@ public class VehicleCategory implements IRecipeCategory<VehicleRecipe>
         ms.rotate(quaternion);
         VehicleProperties properties = VehicleProperties.getProperties(recipe.getVehicle());
         PartPosition position = PartPosition.DEFAULT;
-        if (properties != null) {
+        if (properties != null)
+        {
             position = properties.getDisplayPosition();
         }
 
-        ms.scale((float)position.getScale(), (float)position.getScale(), (float)position.getScale());
-        ms.rotate(Axis.POSITIVE_X.rotationDegrees((float)position.getRotX()));
-        ms.rotate(Axis.POSITIVE_Y.rotationDegrees((float)position.getRotY()));
-        ms.rotate(Axis.POSITIVE_Z.rotationDegrees((float)position.getRotZ()));
+        ms.scale((float) position.getScale(), (float) position.getScale(), (float) position.getScale());
+        ms.rotate(Axis.POSITIVE_X.rotationDegrees((float) position.getRotX()));
+        ms.rotate(Axis.POSITIVE_Y.rotationDegrees((float) position.getRotY()));
+        ms.rotate(Axis.POSITIVE_Z.rotationDegrees((float) position.getRotZ()));
         ms.translate(position.getX(), position.getY(), position.getZ());
         EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
         renderManager.setRenderShadow(false);

@@ -1,6 +1,6 @@
 modLoader="javafml" #mandatory
 loaderVersion="[31,)"
-license="https://www.gnu.org/licenses/gpl-3.0.en.html"
+license="GPLv3"
 issueTrackerURL="https://github.com/Ocelot5836/Just-Enough-Vehicles/issues" #optional
 
 [[mods]] #mandatory
